@@ -69,8 +69,7 @@ jobs:
           path: build/master
       - name: Generate report
         id: ccd-diff
-        run: |
-          echo "::set-output name=content::$(npm --silent start build/master build/branch)"
+        run: echo "::set-output name=content::$(npm --silent start build/master build/branch)"
       - name: Add report
         uses: thollander/actions-comment-pull-request@v1
         with:
