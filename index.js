@@ -45,19 +45,15 @@ const getChanges = diff => {
 
 const generateFileReport = (file, { additions, removals, changes }) => {
   return `
-# ${file}
-## Additions
+## ${file}
+### Additions
 ${getAdditionsOrRemovals(additions)}  
-## Removals
+### Removals
 ${getAdditionsOrRemovals(removals)}  
-## Changes
+### Changes
 ${getChanges(changes)}
   `;
 };
-
-//```diff
-// - text in red
-// + text in green
 
 for (const [file, getFieldId] of Object.entries(fileFieldId)) {
   const masterContent = require(masterDir + file);
