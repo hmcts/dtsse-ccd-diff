@@ -14,22 +14,32 @@ const groupBy = (values, getId) => values.reduce((result, value) => {
   return result;
 }, {});
 
-const diffObject = (obj1, obj2) => {
-  return Object
-    .keys(obj1)
-    .filter(key => obj1[key] !== obj2[key])
-    .map(key => `${key} changed from ${obj1[key]} to ${obj2[key]}`)
-};
+const hasFieldChanged = (obj1, obj2) => Object
+  .keys(obj1)
+  .some(key => obj1[key] !== obj2[key]);
 
 const getAdditionsOrRemovals = diff => {
   const keys = Object.keys(diff[0] || []);
   const rows = diff.map(row => '|' + Object.values(row).join('|')).join('\n');
 
-  return diff.length === 0 ? '' : `
-|${keys.join('|')}
-${rows}
+  return diff.length === 0 ? 'None' : `
+|${keys.join('|')}|
+${rows}|
 `;
 }
+
+const getChanges = diff => {
+  const keys = Object.keys(diff[0]?.oldValue || []);
+  const rows = diff.map(row => keys.map(key => {
+    return row.oldValue[key] === row.newValue[key] ? row.oldValue[key] : '```diff -' + row.oldValue[key] + ' +' + row.newValue[key] + '```';
+  }).join('|')).join('\n');
+
+  return diff.length === 0 ? 'None' : `
+|${keys.join('|')}|
+|${rows}|
+`;
+}
+
 
 const generateFileReport = (file, { additions, removals, changes }) => {
   return `
@@ -39,6 +49,7 @@ ${getAdditionsOrRemovals(additions)}
 ## Removals
 ${getAdditionsOrRemovals(removals)}  
 ## Changes
+${getChanges(changes)}
   `;
 };
 
@@ -58,10 +69,8 @@ for (const [file, getFieldId] of Object.entries(fileFieldId)) {
   const additions = branchFieldKeys.filter(key => !masterFields[key]).map(key => branchFields[key]);
   const removals = masterFieldKeys.filter(key => !branchFields[key]).map(key => masterFields[key]);
   const changes = masterFieldKeys
-    .filter(key => branchFields[key])
-    .map(key => [key, diffObject(masterFields[key], branchFields[key])])
-    .filter(([key, changes]) => changes.length > 0)
-    .map(([key, changes]) => key + ' changed: \n' + changes.join('\n'));
+    .filter(key => branchFields[key] && hasFieldChanged(masterFields[key], branchFields[key]))
+    .map(key => ({ oldValue: masterFields[key], newValue: branchFields[key]}));
 
   console.log(generateFileReport(file, { additions, changes, removals }));
 }
