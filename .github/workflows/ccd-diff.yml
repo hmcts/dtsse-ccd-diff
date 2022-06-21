@@ -55,7 +55,7 @@ jobs:
           node-version: 16
       - name: Generate report
         run: |
-          echo "::set-output name=content::$(npm start ${{jobs.buildMaster.outputs.path}} ${{jobs.buildBranch.outputs.path}})')"
+          echo "::set-output name=content::$(npm start ${{needs.buildMaster.outputs.path}} ${{needs.buildBranch.outputs.path}})')"
         id: report
       - name: Add report
         uses: thollander/actions-comment-pull-request@v1
