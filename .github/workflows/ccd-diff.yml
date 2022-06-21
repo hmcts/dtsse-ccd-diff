@@ -19,8 +19,6 @@ jobs:
 
   buildBranch:
     runs-on: ubuntu-latest
-    outputs:
-      path: ${{ steps.definition.outputs.path }}
     needs: [setup]
     steps:
       - uses: actions/checkout@v3
@@ -31,14 +29,13 @@ jobs:
       - name: Build
         run: ./gradlew generateCCDConfig
         working-directory: build/branch
-      - name: Set JSON path
-        id: definition
-        run: echo "::set-output name=path::build/branch/build/definitions/NFD"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: branch
+          path: build/branch/build/definitions/NFD
 
   buildMaster:
     runs-on: ubuntu-latest
-    outputs:
-      path: ${{ steps.definition.outputs.path }}
     needs: [setup]
     steps:
       - uses: actions/checkout@v3
@@ -49,9 +46,10 @@ jobs:
       - name: Build
         run: ./gradlew generateCCDConfig
         working-directory: build/master
-      - name: Set JSON path
-        id: definition
-        run: echo "::set-output name=path::build/master/build/definitions/NFD"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: master
+          path: build/master/build/definitions/NFD
 
   report:
     runs-on: ubuntu-latest
@@ -61,13 +59,21 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - uses: actions/download-artifact@v3
+        with:
+          name: branch
+          path: build/branch
+      - uses: actions/download-artifact@v3
+        with:
+          name: master
+          path: build/master
       - name: Generate report
         run: |
-          echo "::set-output name=content::$(npm start ${{needs.buildMaster.outputs.path}} ${{needs.buildBranch.outputs.path}})')"
+          echo "::set-output name=content::$(npm start build/master build/branch)')"
         id: report
       - name: Add report
         uses: thollander/actions-comment-pull-request@v1
         with:
-          message: 'CCD diff ${{steps.report.content}}'
+          message: 'CCD diff ${{steps.report.outputs.content}}'
           comment_includes: 'CCD diff'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
