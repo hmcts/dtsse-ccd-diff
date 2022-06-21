@@ -69,7 +69,13 @@ jobs:
           path: build/master
       - name: Generate report
         id: ccd-diff
-        run: echo "::set-output name=content::"$(npm --silent start build/master build/branch)""
+        run: |
+          REPORT="$(npm --silent start build/master build/branch)"
+          REPORT="${REPORT//'%'/'%25'}"
+          REPORT="${REPORT//$'\n'/'%0A'}"
+          REPORT="${REPORT//$'\r'/'%0D'}"
+          echo $REPORT
+          echo "::set-output name=content::$REPORT"
       - name: Display
         run: |
           echo "${{ steps.ccd-diff.outputs.content }}"
@@ -77,11 +83,11 @@ jobs:
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: |
-            # CCD diff report "${{ steps.ccd-diff.outputs.content }}"
+            # CCD diff report ${{ steps.ccd-diff.outputs.content }}
           comment_includes: CCD diff report
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: mshick/add-pr-comment@v1
         with:
           message: |
-            # Report "${{ steps.ccd-diff.outputs.content }}"
+            # Report ${{ steps.ccd-diff.outputs.content }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
