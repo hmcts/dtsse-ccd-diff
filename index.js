@@ -21,6 +21,31 @@ const diffObject = (obj1, obj2) => {
     .map(key => `${key} changed from ${obj1[key]} to ${obj2[key]}`)
 };
 
+const getAdditionsOrRemovals = diff => {
+  const keys = Object.keys(diff[0] || []);
+  const rows = diff.map(row => '|' + Object.values(row).join('|')).join('\n');
+
+  return diff.length === 0 ? '' : `
+|${keys.join('|')}
+${rows}
+`;
+}
+
+const generateFileReport = (file, { additions, removals, changes }) => {
+  return `
+# ${file}
+## Additions
+${getAdditionsOrRemovals(additions)}  
+## Removals
+${getAdditionsOrRemovals(removals)}  
+## Changes
+  `;
+};
+
+//```diff
+// - text in red
+// + text in green
+
 for (const [file, getFieldId] of Object.entries(fileFieldId)) {
   const masterContent = require(masterDir + file);
   const branchContent = require(branchDir + file);
@@ -30,17 +55,14 @@ for (const [file, getFieldId] of Object.entries(fileFieldId)) {
   const masterFieldKeys = Object.keys(masterFields);
   const branchFieldKeys = Object.keys(branchFields);
 
-  const additions = branchFieldKeys.filter(key => !masterFields[key]).map(key => `${key} added`);
-  const removals = masterFieldKeys.filter(key => !branchFields[key]).map(key => `${key} removed`);
+  const additions = branchFieldKeys.filter(key => !masterFields[key]).map(key => branchFields[key]);
+  const removals = masterFieldKeys.filter(key => !branchFields[key]).map(key => masterFields[key]);
   const changes = masterFieldKeys
     .filter(key => branchFields[key])
     .map(key => [key, diffObject(masterFields[key], branchFields[key])])
     .filter(([key, changes]) => changes.length > 0)
     .map(([key, changes]) => key + ' changed: \n' + changes.join('\n'));
 
-  console.log(file);
-  console.log(additions);
-  console.log(removals);
-  console.log(changes);
+  console.log(generateFileReport(file, { additions, changes, removals }));
 }
 
