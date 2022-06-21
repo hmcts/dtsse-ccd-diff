@@ -67,6 +67,15 @@ jobs:
         with:
           name: master
           path: build/master
+      - name: Test
+        id: test
+        run: |
+          REPORT=$(npm --silent start build/master build/branch)
+          
+          echo "::set-output name=report::REPORT"
+      - name: Test Display
+        run: |
+          echo "Report output: ${{ steps.test.outputs.report }}"
       - name: Generate report
         id: ccd-diff
         run: echo "::set-output name=content::$(npm --silent start build/master build/branch)"
