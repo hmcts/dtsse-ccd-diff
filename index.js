@@ -24,6 +24,7 @@ const getAdditionsOrRemovals = diff => {
 
   return diff.length === 0 ? 'None' : `
 |${keys.join('|')}|
+-------------------
 ${rows}|
 `;
 }
@@ -36,6 +37,7 @@ const getChanges = diff => {
 
   return diff.length === 0 ? 'None' : `
 |${keys.join('|')}|
+-------------------
 |${rows}|
 `;
 }

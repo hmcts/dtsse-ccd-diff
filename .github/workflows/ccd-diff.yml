@@ -19,6 +19,8 @@ jobs:
 
   buildBranch:
     runs-on: ubuntu-latest
+    outputs:
+      path: ${{ steps.definition.outputs.path }}
     needs: [setup]
     steps:
       - uses: actions/checkout@v3
@@ -30,10 +32,13 @@ jobs:
         run: ./gradlew generateCCDConfig
         working-directory: build/branch
       - name: Set JSON path
+        id: definition
         run: echo "::set-output name=path::build/branch/build/definitions/NFD"
 
   buildMaster:
     runs-on: ubuntu-latest
+    outputs:
+      path: ${{ steps.definition.outputs.path }}
     needs: [setup]
     steps:
       - uses: actions/checkout@v3
@@ -45,6 +50,7 @@ jobs:
         run: ./gradlew generateCCDConfig
         working-directory: build/master
       - name: Set JSON path
+        id: definition
         run: echo "::set-output name=path::build/master/build/definitions/NFD"
 
   report:
