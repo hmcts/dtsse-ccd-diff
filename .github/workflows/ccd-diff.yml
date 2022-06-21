@@ -23,13 +23,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: branch
+          path: build/branch
           repository: hmcts/nfdiv-case-api # TODO remove
           ref: nfdiv-date-picker # TODO remove
       - name: Build
-        run: ./branch/gradlew generateCCDConfig
+        run: ./gradlew generateCCDConfig
+        working-directory: build/branch
       - name: Set JSON path
-        run: echo "::set-output name=path::build/branch/definitions/NFD"
+        run: echo "::set-output name=path::build/branch/build/definitions/NFD"
 
   buildMaster:
     runs-on: ubuntu-latest
@@ -38,12 +39,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: master
-          path: master
+          path: build/master
           repository: hmcts/nfdiv-case-api # TODO remove
       - name: Build
-        run: ./master/gradlew generateCCDConfig
+        run: ./gradlew generateCCDConfig
+        working-directory: build/master
       - name: Set JSON path
-        run: echo "::set-output name=path::build/master/definitions/NFD"
+        run: echo "::set-output name=path::build/master/build/definitions/NFD"
 
   report:
     runs-on: ubuntu-latest
