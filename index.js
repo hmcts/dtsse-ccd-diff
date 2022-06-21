@@ -20,25 +20,25 @@ const hasFieldChanged = (obj1, obj2) => Object
 
 const getAdditionsOrRemovals = diff => {
   const keys = Object.keys(diff[0] || []);
-  const rows = diff.map(row => '|' + Object.values(row).join('|')).join('\n');
+  const rows = diff.map(row => '|' + Object.values(row).join('|')).join('|\n');
 
   return diff.length === 0 ? 'None' : `
 |${keys.join('|')}|
--------------------
+|${keys.map(_ => '---').join('|')}|
 ${rows}|
 `;
 }
 
 const getChanges = diff => {
   const keys = Object.keys(diff[0]?.oldValue || []);
-  const rows = diff.map(row => keys.map(key => {
+  const rows = diff.map(row => '|' + keys.map(key => {
     return row.oldValue[key] === row.newValue[key] ? row.oldValue[key] : '```diff -' + row.oldValue[key] + ' +' + row.newValue[key] + '```';
-  }).join('|')).join('\n');
+  }).join('|')).join('|\n');
 
   return diff.length === 0 ? 'None' : `
 |${keys.join('|')}|
--------------------
-|${rows}|
+|${keys.map(_ => '---').join('|')}|
+${rows}|
 `;
 }
 
