@@ -70,9 +70,10 @@ jobs:
       - name: Test
         id: test
         run: |
-          REPORT=$(pwd)
+          REPORT=$(node index.js build/master build/branch)
           
-          echo "::set-output name=report::$REPORT"
+          echo "::set-output name=report::"$REPORT""
+          echo "$REPORT"
       - name: Test Display
         run: |
           echo "Report output: ${{ steps.test.outputs.report }}"
