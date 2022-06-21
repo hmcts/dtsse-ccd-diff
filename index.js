@@ -8,6 +8,14 @@ const fileFieldId = {
   'CaseField.json': field => field.ID
 }
 
+const blacklistedKeys = ['LiveFrom', 'SecurityClassification', 'CaseTypeID'];
+
+const removeBlacklistedKeys = field => {
+  return Object.fromEntries(
+    Object.entries(field).filter(([key]) => !blacklistedKeys.includes(key))
+  );
+}
+
 const groupBy = (values, getId) => values.reduce((result, value) => {
   result[getId(value)] = value;
 
@@ -56,8 +64,8 @@ ${getChanges(changes)}
 };
 
 for (const [file, getFieldId] of Object.entries(fileFieldId)) {
-  const masterContent = require(masterDir + file);
-  const branchContent = require(branchDir + file);
+  const masterContent = require(masterDir + file).map(removeBlacklistedKeys);
+  const branchContent = require(branchDir + file).map(removeBlacklistedKeys);
 
   const masterFields = groupBy(masterContent, getFieldId);
   const branchFields = groupBy(branchContent, getFieldId);

@@ -86,8 +86,3 @@ jobs:
             # CCD diff report ${{ steps.ccd-diff.outputs.content }}
           comment_includes: CCD diff report
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: mshick/add-pr-comment@v1
-        with:
-          message: |
-            # Report ${{ steps.ccd-diff.outputs.content }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
