@@ -70,7 +70,7 @@ jobs:
       - name: Test
         id: test
         run: |
-          REPORT=$(npm --silent start build/master build/branch)
+          REPORT=$(node index.js build/master build/branch)
           
           echo "::set-output name=report::$REPORT"
       - name: Test Display
