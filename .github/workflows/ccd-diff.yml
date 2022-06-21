@@ -67,25 +67,19 @@ jobs:
         with:
           name: master
           path: build/master
-      - name: Test
-        id: test
-        run: |
-          REPORT=$(node index.js build/master build/branch)
-          
-          echo "::set-output name=report::"$REPORT""
-          echo "$REPORT"
-      - name: Test Display
-        run: |
-          echo "Report output: ${{ steps.test.outputs.report }}"
       - name: Generate report
         id: ccd-diff
         run: echo "::set-output name=content::"$(npm --silent start build/master build/branch)""
       - name: Display
         run: |
-          echo "Report output: ${{ steps.ccd-diff.outputs.content }}"
+          echo "Report output: "${{ steps.ccd-diff.outputs.content }}""
       - name: Add report
         uses: thollander/actions-comment-pull-request@v1
         with:
-          message: "# CCD diff report ${{ steps.ccd-diff.outputs.content }}"
+          message: "# CCD diff report "${{ steps.ccd-diff.outputs.content }}""
           comment_includes: CCD diff report
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: mshick/add-pr-comment@v1
+        with:
+          message: "# CCD diff report ${{ steps.ccd-diff.outputs.content }}"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
