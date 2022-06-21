@@ -27,7 +27,7 @@ jobs:
           repository: hmcts/nfdiv-case-api # TODO remove
           ref: nfdiv-date-picker # TODO remove
       - name: Build
-        run: ./branch/.gradlew generateCCDConfig
+        run: ./branch/gradlew generateCCDConfig
       - name: Set JSON path
         run: echo "::set-output name=path::build/branch/definitions/NFD"
 
@@ -41,7 +41,7 @@ jobs:
           path: master
           repository: hmcts/nfdiv-case-api # TODO remove
       - name: Build
-        run: ./master/.gradlew generateCCDConfig
+        run: ./master/gradlew generateCCDConfig
       - name: Set JSON path
         run: echo "::set-output name=path::build/master/definitions/NFD"
 
