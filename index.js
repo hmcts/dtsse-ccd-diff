@@ -1,3 +1,4 @@
+const { generateFileReport } = require('./markdown');
 
 const [_, __, arg1, arg2] = process.argv;
 const masterDir = __dirname + '/' + arg1 + '/';
@@ -25,43 +26,6 @@ const groupBy = (values, getId) => values.reduce((result, value) => {
 const hasFieldChanged = (obj1, obj2) => Object
   .keys(obj1)
   .some(key => obj1[key] !== obj2[key]);
-
-const getAdditionsOrRemovals = diff => {
-  const keys = Object.keys(diff[0] || []);
-  const rows = diff.map(row => '|' + Object.values(row).join('|')).join('|\n');
-
-  return diff.length === 0 ? 'None' : `
-|${keys.join('|')}|
-|${keys.map(_ => '---').join('|')}|
-${rows}|
-`;
-}
-
-const getChanges = diff => {
-  const keys = Object.keys(diff[0]?.oldValue || []);
-  const rows = diff.map(row => '|' + keys.map(key => {
-    return row.oldValue[key] === row.newValue[key] ? row.oldValue[key] : '```diff -' + row.oldValue[key] + ' +' + row.newValue[key] + '```';
-  }).join('|')).join('|\n');
-
-  return diff.length === 0 ? 'None' : `
-|${keys.join('|')}|
-|${keys.map(_ => '---').join('|')}|
-${rows}|
-`;
-}
-
-
-const generateFileReport = (file, { additions, removals, changes }) => {
-  return `
-## ${file}
-### Additions
-${getAdditionsOrRemovals(additions)}  
-### Removals
-${getAdditionsOrRemovals(removals)}  
-### Changes
-${getChanges(changes)}
-  `;
-};
 
 for (const [file, getFieldId] of Object.entries(fileFieldId)) {
   const masterContent = require(masterDir + file).map(removeBlacklistedKeys);
