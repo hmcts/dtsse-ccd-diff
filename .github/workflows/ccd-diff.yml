@@ -72,7 +72,7 @@ jobs:
         run: |
           REPORT=$(npm --silent start build/master build/branch)
           
-          echo "::set-output name=report::REPORT"
+          echo "::set-output name=report::$REPORT"
       - name: Test Display
         run: |
           echo "Report output: ${{ steps.test.outputs.report }}"
