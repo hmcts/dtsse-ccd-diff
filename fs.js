@@ -1,8 +1,12 @@
 const { glob } = require('glob');
 
-const getFilename = path => path.substring(path.lastIndexOf('/') + 1);
+const [_, __, arg1, arg2] = process.argv;
+const masterDir = process.cwd() + '/' + arg1 + '/';
+const branchDir = process.cwd() + '/' + arg2 + '/';
 
-const resolveFiles = (masterDir, branchDir) => ([file, getFieldId]) => {
+const getFilename = path => path.replace(masterDir, '').replace(branchDir, '');
+
+const resolveFiles = ([file, getFieldId]) => {
   const masterFiles = glob.sync(masterDir + file);
   const branchFiles = glob.sync(branchDir + file);
 
