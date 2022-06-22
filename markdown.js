@@ -10,10 +10,10 @@ const getAdditionsOrRemovals = (diff, title) => {
   return `
 #### ${diff.length} ${title}
 |${keys.join('|')}|
-|${keys.map(_ => '---').join('|')}|
+|${keys.map(() => '---').join('|')}|
 ${rows}|
 `;
-}
+};
 
 const getChanges = diff => {
   if (diff.length === 0) {
@@ -40,7 +40,7 @@ const getChanges = diff => {
 ${rows.map(row => `<tr>${row}</tr>`).join('')}
 </table>
 `;
-}
+};
 
 const generateFileReport = ({ file, additions, removals, changes }) => {
   if (additions.length + removals.length + changes.length === 0) {

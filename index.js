@@ -18,7 +18,7 @@ const fileFieldId = {
   '**/WorkBasketInputFields.json': field => field.CaseFieldID,
   '**/WorkBasketResultFields.json': field => field.CaseFieldID,
   '**/AuthorisationCaseEvent.json': field => `${field.CaseEventID}:${field.UserRole}`
-}
+};
 
 const output = Object
   .entries(fileFieldId)

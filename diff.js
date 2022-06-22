@@ -1,4 +1,4 @@
-const {getFilename} = require("./fs");
+const {getFilename} = require('./fs');
 
 const blacklistedKeys = ['LiveFrom', 'SecurityClassification', 'CaseTypeID'];
 
@@ -6,7 +6,7 @@ const removeBlacklistedKeys = field => {
   return Object.fromEntries(
     Object.entries(field).filter(([key]) => !blacklistedKeys.includes(key))
   );
-}
+};
 
 const groupBy = (values, getId) => values.reduce((result, value) => {
   result[getId(value)] = value;
@@ -33,6 +33,6 @@ const getDiff = ([masterFile, branchFile, getFieldId]) => {
     .map(key => ({ oldValue: masterFields[key], newValue: branchFields[key]}));
 
   return { file: getFilename(masterFile), additions, removals, changes };
-}
+};
 
 module.exports = { getDiff };
