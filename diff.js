@@ -8,7 +8,7 @@ const removeBlacklistedKeys = field => {
 };
 
 const ensureKeys = keys => row =>
-  keys.reduce((row, key) => ({ [key]: null, ...row }), row);
+  keys.reduce((row, key) => ({ [key]: '', ...row }), row);
 
 const groupBy = (values, getId) => values.reduce((result, value) => {
   result[getId(value)] = value;
