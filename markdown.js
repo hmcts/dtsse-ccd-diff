@@ -42,7 +42,7 @@ ${rows.map(row => `<tr>${row}</tr>`).join('')}
 `;
 }
 
-const generateFileReport = (file, { additions, removals, changes }) => {
+const generateFileReport = ({ file, additions, removals, changes }) => {
   if (additions.length + removals.length + changes.length === 0) {
     return '';
   }
