@@ -4,6 +4,8 @@ const { generateFileReport } = require('./markdown');
 const { getDiff } = require('./diff');
 const { resolveFiles } = require('./fs');
 
+const githubCommentMaxLength = 65535;
+
 const fileFieldId = {
   '**/AuthorisationCaseState.json': field => `${field.CaseStateID}:${field.UserRole}`,
   '**/AuthorisationCaseType.json': field => field.UserRole,
@@ -34,6 +36,8 @@ const output = Object
 
 if (output === '') {
   console.log('No change');
+} else if (output.length > githubCommentMaxLength) {
+  console.log(output.substring(0, githubCommentMaxLength))
 } else {
   console.log(output);
 }
