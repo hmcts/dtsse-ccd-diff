@@ -4,8 +4,6 @@ const { generateFileReport } = require('./markdown');
 const { getDiff } = require('./diff');
 const { resolveFiles } = require('./fs');
 
-const githubCommentMaxLength = 65535;
-
 const fileFieldId = {
   '**/AuthorisationCaseState.json': field => `${field.CaseStateID}:${field.UserRole}`,
   '**/AuthorisationCaseType.json': field => field.UserRole,
@@ -33,6 +31,8 @@ const output = Object
   .filter(diff => diff.additions.length + diff.removals.length + diff.changes.length > 0)
   .map(generateFileReport)
   .join('');
+
+const githubCommentMaxLength = 65535;
 
 if (output === '') {
   console.log('No change');
