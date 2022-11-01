@@ -37,7 +37,7 @@ const githubCommentMaxLength = 65400;
 if (output === '') {
   console.log('No change');
 } else if (output.length > githubCommentMaxLength) {
-  console.log(output.substring(0, githubCommentMaxLength))
+  console.log('Output too long for GitHub PR');
 } else {
   console.log(output);
 }
