@@ -16,7 +16,7 @@
     "url": "git@github.com:hmcts/rse-ccd-diff.git"
   },
   "dependencies": {
-    "glob": "^9.0.2"
+    "glob": "^10.1.0"
   },
   "devDependencies": {
     "eslint": "^8.20.0"
