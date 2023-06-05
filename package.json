@@ -1,7 +1,7 @@
 {
   "name": "@hmcts/ccd-diff",
   "private": false,
-  "version": "4.6.5",
+  "version": "4.7.0",
   "description": "Diff CCD files",
   "main": "index.js",
   "bin": "index.js",
