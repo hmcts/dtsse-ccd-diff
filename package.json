@@ -7,7 +7,7 @@
   "bin": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "eslint ."
+    "test": "eslint . && node --test *.test.js"
   },
   "author": "HMCTS",
   "license": "MIT",
