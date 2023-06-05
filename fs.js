@@ -2,10 +2,12 @@ const { globSync } = require('glob');
 const { existsSync } = require('fs');
 
 const [_, __, arg1, arg2] = process.argv;
-const masterDir = process.cwd() + '/' + arg1 + '/';
-const branchDir = process.cwd() + '/' + arg2 + '/';
+const masterDir = arg1 + '/';
+const branchDir = arg2 + '/';
 
-const loadFile = path => existsSync(path) ? require(path) : [];
+const loadFile = path => existsSync(path)
+  ? require(process.cwd() + '/' + path)
+  : [];
 
 const getFilename = path => path.replace(masterDir, '').replace(branchDir, '');
 
