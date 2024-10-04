@@ -5,8 +5,8 @@ const { getDiff } = require('./diff');
 const { resolveFiles } = require('./fs');
 
 const fileFieldId = {
-  '**/AuthorisationCaseState.json': field => `${field.CaseStateID}:${field.UserRole}`,
-  '**/AuthorisationCaseType.json': field => field.UserRole,
+  '**/AuthorisationCaseState.json': field => `${field.CaseStateID}:${field.AccessProfile || field.UserRole}`,
+  '**/AuthorisationCaseType.json': field => field.AccessProfile || field.UserRole,
   '**/CaseField.json': field => field.ID,
   '**/CaseRoles.json': field => field.ID,
   '**/SearchInputFields.json': field => field.CaseFieldID,
@@ -15,12 +15,12 @@ const fileFieldId = {
   'State/State.json': field => field.ID,
   '**/WorkBasketInputFields.json': field => field.CaseFieldID,
   '**/WorkBasketResultFields.json': field => field.CaseFieldID,
-  '**/AuthorisationCaseEvent.json': field => `${field.CaseEventID}:${field.UserRole}`,
-  'AuthorisationCaseField/*.json': field => `${field.CaseFieldID}:${field.UserRole}`,
+  '**/AuthorisationCaseEvent.json': field => `${field.CaseEventID}:${field.AccessProfile || field.UserRole}`,
+  'AuthorisationCaseField/*.json': field => `${field.CaseFieldID}:${field.AccessProfile || field.UserRole}`,
   'CaseEvent/*.json': field => field.ID,
   'ComplexTypes/*.json': field => `${field.ID}:${field.ListElementCode}`,
   'CaseEventToFields/*.json': field => `${field.CaseFieldID}:${field.CaseEventID}`,
-  'CaseTypeTab/*.json': field => `${field.TabID}:${field.CaseFieldID}:${field.UserRole}`,
+  'CaseTypeTab/*.json': field => `${field.TabID}:${field.CaseFieldID}:${field.AccessProfile || field.UserRole}`,
   'FixedLists/*.json': field => `${field.ID}:${field.ListElementCode}`
 };
 
