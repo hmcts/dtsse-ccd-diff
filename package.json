@@ -4,7 +4,9 @@
   "version": "4.7.6",
   "description": "Diff CCD files",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": {
+    "ccd-diff": "index.js"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "eslint . && node --test *.test.js"
@@ -13,7 +15,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:hmcts/rse-ccd-diff.git"
+    "url": "git+ssh://git@github.com/hmcts/rse-ccd-diff.git"
   },
   "dependencies": {
     "glob": "^10.1.0"
