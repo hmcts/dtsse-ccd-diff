@@ -28,4 +28,4 @@ jobs:
         run: echo "new tag $NEW_TAG"
       - run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_api_token }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_API_TOKEN }}
