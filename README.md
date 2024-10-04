@@ -250,4 +250,3 @@ For a plain JSON repository this would look like:
           name: master
           path: build/master/definitions/divorce/json
 ```
-
