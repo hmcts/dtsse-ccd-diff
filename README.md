@@ -152,11 +152,11 @@ You can add a report to a PR with CCD changes by adding:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: branch
           path: build/branch
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: master
           path: build/master
@@ -202,7 +202,7 @@ You will need to add two steps to upload the CCD JSON definition artifacts to co
       - name: Build
         run: ./gradlew generateCCDConfig
         working-directory: build/branch
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4.6.0
         with:
           name: branch
           path: build/branch/build/definitions/NFD
@@ -218,7 +218,7 @@ You will need to add two steps to upload the CCD JSON definition artifacts to co
       - name: Build
         run: ./gradlew generateCCDConfig
         working-directory: build/master
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4.6.0
         with:
           name: master
           path: build/master/build/definitions/NFD
@@ -233,7 +233,7 @@ For a plain JSON repository this would look like:
       - uses: actions/checkout@v3
         with:
           path: build/branch
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4.6.0
         with:
           name: branch
           path: build/branch/definitions/divorce/json
@@ -245,7 +245,7 @@ For a plain JSON repository this would look like:
         with:
           ref: master
           path: build/master
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4.6.0
         with:
           name: master
           path: build/master/definitions/divorce/json
