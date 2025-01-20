@@ -152,11 +152,11 @@ You can add a report to a PR with CCD changes by adding:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: branch
           path: build/branch
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: master
           path: build/master
